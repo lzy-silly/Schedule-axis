@@ -178,7 +178,36 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 16px;
+}
+
+.add-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
   margin-bottom: 18px;
+}
+
+.add-field {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.add-field.grow {
+  flex: 1;
+}
+
+.add-field input[type='time'] {
+  width: 140px;
+  padding: 10px 12px;
+}
+
+.add-btn {
+  height: 44px;
+  padding: 0 18px;
+  white-space: nowrap;
 }
 
 .date-meta {
@@ -256,12 +285,31 @@ button {
   border: 1px solid #eadfce;
   border-radius: 16px;
   padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .title {
   margin: 0;
   font-size: 16px;
   line-height: 1.55;
+  flex: 1;
+}
+
+.delete-btn {
+  flex-shrink: 0;
+  border: 1px solid #ead0c4;
+  background: #fff8f4;
+  color: var(--error);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.delete-btn:hover {
+  background: #fdecec;
 }
 
 .empty {
@@ -303,8 +351,18 @@ button {
 
   .hero,
   .composer-actions,
-  .date-bar {
+  .date-bar,
+  .add-row {
     flex-wrap: wrap;
+  }
+
+  .add-field input[type='time'],
+  .add-field.grow {
+    width: 100%;
+  }
+
+  .add-btn {
+    width: 100%;
   }
 
   .timeline-item {

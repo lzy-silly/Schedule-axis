@@ -12,6 +12,8 @@ const state = {
   },
   selectedDate: formatDate(new Date()),
   text: '',
+  draftTitle: '',
+  draftTime: '',
   loading: false,
   notice: null,
   settingsOpen: false
@@ -97,6 +99,52 @@ function mergeItems(newItems) {
   const kept = state.items.filter((item) => !dates.has(item.date))
   state.items = [...kept, ...newItems]
   saveTodos()
+}
+
+function deleteItem(id) {
+  const target = state.items.find((item) => item.id === id)
+  if (!target) return
+  state.items = state.items.filter((item) => item.id !== id)
+  saveTodos()
+  showNotice(`已删除「${target.title}」`, 'ok')
+}
+
+function normalizeTime(value) {
+  const raw = String(value || '').trim()
+  if (/^\d{1}:\d{2}$/.test(raw)) return `0${raw}`
+  return raw
+}
+
+function createItemId(date, time) {
+  return `${date}-${time}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+}
+
+function addManualItem() {
+  const title = state.draftTitle.trim()
+  const time = normalizeTime(state.draftTime)
+  const date = state.selectedDate
+
+  if (!title) {
+    showNotice('请填写日程标题', 'error')
+    return
+  }
+  if (!/^\d{2}:\d{2}$/.test(time)) {
+    showNotice('请选择或填写有效时间', 'error')
+    return
+  }
+
+  state.items = [
+    ...state.items,
+    {
+      id: createItemId(date, time),
+      title,
+      date,
+      time
+    }
+  ]
+  saveTodos()
+  state.draftTitle = ''
+  showNotice(`已添加「${title}」`, 'ok')
 }
 
 async function parseSchedule() {
@@ -210,6 +258,34 @@ function bindEvents() {
     saveSettings()
     render()
   })
+
+  document.querySelectorAll('.delete-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const id = button.getAttribute('data-id')
+      if (id) deleteItem(id)
+    })
+  })
+
+  const draftTitle = document.querySelector('#draft-title')
+  if (draftTitle) {
+    draftTitle.addEventListener('input', (event) => {
+      state.draftTitle = event.target.value
+    })
+    draftTitle.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault()
+        addManualItem()
+      }
+    })
+  }
+
+  document.querySelector('#draft-time')?.addEventListener('change', (event) => {
+    state.draftTime = event.target.value
+  })
+
+  document.querySelector('#add-item-btn')?.addEventListener('click', () => {
+    addManualItem()
+  })
 }
 
 function renderTimeline(items) {
@@ -232,6 +308,9 @@ function renderTimeline(items) {
           <div class="dot"></div>
           <div class="card">
             <p class="title">${escapeHtml(item.title)}</p>
+            <button class="delete-btn" type="button" data-id="${escapeHtml(item.id)}" aria-label="删除日程">
+              删除
+            </button>
           </div>
         </li>
       `
@@ -318,6 +397,17 @@ function render() {
           <button id="next-day" class="icon-btn" type="button" aria-label="后一天">›</button>
           <button id="today-btn" class="chip" type="button">回到今天</button>
         </div>
+        <form class="add-row" onsubmit="return false">
+          <label class="add-field">
+            时间
+            <input id="draft-time" type="time" value="${escapeHtml(state.draftTime)}" />
+          </label>
+          <label class="add-field grow">
+            日程
+            <input id="draft-title" type="text" maxlength="80" placeholder="例如：下午开会" value="${escapeHtml(state.draftTitle)}" />
+          </label>
+          <button id="add-item-btn" class="secondary add-btn" type="button">添加日程</button>
+        </form>
         ${renderTimeline(dayItems)}
       </section>
     </div>
