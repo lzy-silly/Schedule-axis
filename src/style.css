@@ -1,0 +1,313 @@
+:root {
+  --bg: #f4efe6;
+  --ink: #1d1914;
+  --muted: #6d655c;
+  --paper: rgba(255, 252, 247, 0.86);
+  --line: #e4d8c6;
+  --accent: #c45c26;
+  --accent-dark: #9a3f12;
+  --ok: #2f6f4e;
+  --warn: #8a5a12;
+  --error: #9b2c2c;
+  --shadow: 0 18px 50px rgba(70, 48, 20, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #f7d9b8 0%, transparent 55%),
+    radial-gradient(900px 400px at 100% 0%, #d9e7d2 0%, transparent 50%),
+    var(--bg);
+}
+
+#app {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 20px 72px;
+}
+
+.shell {
+  display: grid;
+  gap: 18px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--accent-dark);
+}
+
+h1 {
+  margin: 0;
+  font-size: 42px;
+  letter-spacing: 0.04em;
+}
+
+.lead {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.composer,
+.board,
+.settings {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+
+.settings {
+  display: none;
+}
+
+.settings.open {
+  display: block;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+label,
+.block-label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #d8cbb8;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--ink);
+  background: #fffdf9;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 150px;
+  line-height: 1.7;
+}
+
+.composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary,
+.secondary,
+.ghost,
+.chip,
+.icon-btn {
+  border: 0;
+  border-radius: 999px;
+}
+
+.primary,
+.secondary {
+  padding: 12px 20px;
+}
+
+.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.primary:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.secondary {
+  background: #2c261f;
+  color: #fff8ef;
+}
+
+.ghost,
+.chip {
+  background: transparent;
+  border: 1px solid #d2c3ae;
+  color: var(--ink);
+  padding: 10px 16px;
+}
+
+.date-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.date-meta {
+  flex: 1;
+  display: grid;
+  gap: 4px;
+}
+
+.date-meta p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.date-meta input[type='date'] {
+  width: 180px;
+  padding: 8px 10px;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  background: #fff;
+  border: 1px solid #d2c3ae;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 72px 18px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding-bottom: 18px;
+}
+
+.time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  padding-top: 10px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  margin-top: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 6px rgba(196, 92, 38, 0.12);
+  position: relative;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 14px;
+  width: 2px;
+  height: calc(100% + 22px);
+  background: #eadcc9;
+}
+
+.timeline-item:last-child .dot::after {
+  display: none;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #eadfce;
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.empty {
+  padding: 28px 8px 12px;
+  color: var(--muted);
+}
+
+.empty p {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.notice {
+  border-radius: 16px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.notice.ok {
+  background: #e7f4ea;
+  color: var(--ok);
+}
+
+.notice.warn {
+  background: #fff4dd;
+  color: var(--warn);
+}
+
+.notice.error {
+  background: #fdecec;
+  color: var(--error);
+}
+
+@media (max-width: 720px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  .hero,
+  .composer-actions,
+  .date-bar {
+    flex-wrap: wrap;
+  }
+
+  .timeline-item {
+    grid-template-columns: 58px 14px 1fr;
+  }
+}
